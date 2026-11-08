@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Partsbin · Electronic components tracker</title>
+  <meta name="theme-color" content="#0a2a5e">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Partsbin<small>what's in the drawer, and how many are left</small></h1>
+      <div class="stats" aria-label="Inventory summary">
+        <div class="stat"><b id="sP">0</b><span>part types</span></div>
+        <div class="stat"><b id="sU">0</b><span>total units</span></div>
+        <div class="stat" id="sLw"><b id="sL">0</b><span>running low</span></div>
+      </div>
+    </header>
+    <div class="tools">
+      <div class="row">
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Search name, value, package, location  ( / )" autocomplete="off" aria-label="Search parts">
+        </div>
+        <select id="sort" aria-label="Sort parts"><option value="name">Name A-Z</option><option value="low">Lowest stock first</option><option value="new">Recently edited</option><option value="qty">Most units</option></select>
+      </div>
+      <div class="chips" id="chips" aria-label="Filter by category"></div>
+    </div>
+    <main class="grid" id="grid" aria-live="polite"></main>
+    <div class="foot">
+      <button class="ghost" id="exp">Export backup</button>
+      <button class="ghost" id="imp">Import backup</button>
+      <input type="file" id="file" accept="application/json" hidden>
+    </div>
+  </div>
+  <button class="fab" id="add">+ Add part</button>
+
+  <dialog id="dlg" aria-labelledby="ft">
+    <form id="f">
+      <h2 id="ft">Add part</h2>
+      <label class="w">Name<input name="name" required placeholder="e.g. 10k resistor, ESP32 DevKit"></label>
+      <label>Category<select name="cat"></select></label>
+      <label>Value / rating<input name="value" placeholder="10k, 100nF, 3.3V"></label>
+      <label>Package<input name="pkg" placeholder="0805, DIP-8, TO-92"></label>
+      <label>Location<input name="loc" placeholder="Drawer B3"></label>
+      <label>In stock<input name="qty" type="number" min="0" inputmode="numeric" value="0" required></label>
+      <label>Low-stock alert at<input name="min" type="number" min="0" inputmode="numeric" value="5"></label>
+      <label class="w">Notes<textarea name="note" rows="2" placeholder="Datasheet link, supplier, part number"></textarea></label>
+      <div class="acts"><button type="button" class="cx" id="cx">Cancel</button><button type="button" class="del" id="del" hidden>Delete</button><button class="go">Save part</button></div>
+    </form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"><span id="tm"></span><button id="tu" hidden>Undo</button></div>
+</body>
+</html>
